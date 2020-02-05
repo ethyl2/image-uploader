@@ -19,6 +19,7 @@ function App() {
   const [user, setUser] = useState(initialUser);
   const [registeredUser, setRegisteredUser] = useState(null);
   const [message, setMessage] = useState('');
+  const [qrCodeUrl, setqrCodeUrl] = useState(null);
 
   const handleUploaderChange = event => {
     
@@ -59,6 +60,7 @@ function App() {
         localStorage.setItem('token', res.data.token);
         setUser({...initialUser, profile_img_src: res.data.user.profile_img_src});
         setMessage(`Welcome, ${res.data.user.name}!`)
+        setqrCodeUrl(`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='${res.data.user.profile_img_src}'`);
       })
       .catch(err => {
         console.log(err);
@@ -189,6 +191,8 @@ function App() {
             {registeredUser.phone_number && <p>{registeredUser.phone_number}</p>}
           </div>
         }
+
+        {qrCodeUrl && <img src={qrCodeUrl} alt='qrCode that links with image' />}
 
       </div>
 
